@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Happy Valentine's Day 💕</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="fireworksCanvas"></canvas>
+
+    <div class="message-container">
+        <h1 class="title">HVD Lover</h1>
+        <p class="subtitle">Tap the heart for a confession letter</p>
+        <div class="heart-beat" id="heartBtn">❤️</div>
+    </div>
+
+    <!-- Confession popup -->
+    <div class="confession-overlay" id="confessionOverlay">
+        <!-- Step 1: Password -->
+        <div class="confession-box password-step" id="passwordStep">
+            <p class="password-title">🔒 This letter is locked</p>
+            <p class="password-hint">Enter the secret word to unlock</p>
+            <div class="password-input-wrap">
+                <input type="text" class="password-input" id="passwordInput" placeholder="Type the password..." autocomplete="off" spellcheck="false">
+            </div>
+            <button class="password-btn" id="passwordBtn">Unlock 💌</button>
+            <p class="password-error" id="passwordError">Nope, try again! 💔</p>
+            <p class="password-hint-reveal" id="passwordHintReveal">Hint: what I call you 😏</p>
+        </div>
+
+        <!-- Step 2: Confession -->
+        <div class="confession-box confession-step" id="confessionStep">
+            <p class="confession-text">jk hehe</p>
+            <div class="confession-close" id="confessionClose">💕</div>
+        </div>
+    </div>
+
+    <div class="garden" id="garden"></div>
+
+    <!-- Floating hearts -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

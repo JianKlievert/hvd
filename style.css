@@ -1,0 +1,604 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background: linear-gradient(to bottom, #0a0015, #1a0a2e, #2d1b47, #1a0a2e);
+    position: relative;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Fireworks Canvas */
+#fireworksCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Message */
+.message-container {
+    position: fixed;
+    top: 22%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 3;
+    pointer-events: none;
+    width: 90vw;
+    max-width: 600px;
+}
+
+.title {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: #ff6b9d;
+    text-shadow: 
+        0 0 20px rgba(255, 107, 157, 0.5),
+        0 0 40px rgba(255, 107, 157, 0.3),
+        0 0 80px rgba(255, 107, 157, 0.2);
+    opacity: 0;
+    animation: fadeInDown 2s ease-out 4s forwards, titleGlow 3s ease-in-out 6s infinite;
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: #ffb6c1;
+    text-shadow: 0 0 15px rgba(255, 182, 193, 0.5);
+    opacity: 0;
+    animation: fadeInUp 2s ease-out 6s forwards;
+    margin-bottom: 25px;
+}
+
+.heart-beat {
+    font-size: clamp(3rem, 6vw, 5rem);
+    display: inline-block;
+    filter: drop-shadow(0 0 15px rgba(255, 0, 80, 0.6));
+    opacity: 0;
+    animation: popIn 0.8s ease-out 8s forwards, heartBeat 1.2s ease-in-out 8.8s infinite;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: filter 0.3s;
+}
+
+.heart-beat:hover {
+    filter: drop-shadow(0 0 25px rgba(255, 0, 80, 0.9));
+}
+
+/* Confession Popup */
+.confession-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.confession-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.confession-box {
+    background: linear-gradient(135deg, #1a0a2e, #2d1b47);
+    border: 2px solid rgba(255, 107, 157, 0.4);
+    border-radius: 20px;
+    padding: 30px 35px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(255, 107, 157, 0.3), inset 0 0 30px rgba(255, 107, 157, 0.05);
+    transform: scale(0);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 85vw;
+    width: 340px;
+    display: none;
+}
+
+.confession-box.active {
+    display: block;
+}
+
+.confession-overlay.show .confession-box.active {
+    transform: scale(1);
+}
+
+/* Password Step */
+.password-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: #ff6b9d;
+    text-shadow: 0 0 15px rgba(255, 107, 157, 0.5);
+    margin-bottom: 10px;
+}
+
+.password-hint {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: rgba(255, 182, 193, 0.7);
+    margin-bottom: 25px;
+}
+
+.password-input-wrap {
+    margin-bottom: 20px;
+}
+
+.password-input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 107, 157, 0.3);
+    border-radius: 30px;
+    padding: 12px 24px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 16px;
+    color: #ffb6c1;
+    text-align: center;
+    outline: none;
+    width: 100%;
+    max-width: 250px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.password-input:focus {
+    border-color: #ff6b9d;
+    box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+}
+
+.password-input::placeholder {
+    color: rgba(255, 182, 193, 0.3);
+}
+
+.password-btn {
+    background: linear-gradient(135deg, #ff6b9d, #e91e63);
+    border: none;
+    border-radius: 30px;
+    padding: 12px 32px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
+}
+
+.password-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255, 107, 157, 0.5);
+}
+
+.password-error {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    color: #ff4081;
+    margin-top: 15px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.password-error.show {
+    opacity: 1;
+    animation: shake 0.5s ease-in-out;
+}
+
+.password-hint-reveal {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    color: #ffd54f;
+    margin-top: 12px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    text-shadow: 0 0 10px rgba(255, 213, 79, 0.3);
+}
+
+.password-hint-reveal.show {
+    opacity: 1;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+}
+
+/* Confession Step */
+.confession-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #ff6b9d;
+    text-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+    margin-bottom: 25px;
+}
+
+.confession-close {
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.confession-close:hover {
+    transform: scale(1.3);
+}
+
+/* Garden / Bouquet */
+.garden {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 45%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Flower Stem */
+.flower {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    width: 0;
+    height: 0;
+    transform-origin: 0 0;
+}
+
+.stem {
+    position: absolute;
+    bottom: 0;
+    left: -2px;
+    width: 4px;
+    background: linear-gradient(to top, #2d8a4e, #4ade80);
+    border-radius: 2px;
+    transform-origin: bottom center;
+    height: 0;
+    transition: height 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.stem::before,
+.stem::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 9px;
+    background: linear-gradient(135deg, #2d8a4e, #4ade80);
+}
+
+.stem::before {
+    left: 100%;
+    top: 35%;
+    border-radius: 0 50% 50% 0;
+    transform-origin: 0% 50%;
+    transform: scale(0);
+    transition: transform 0.8s ease-out;
+}
+
+.stem::after {
+    right: 100%;
+    top: 60%;
+    border-radius: 50% 0 0 50%;
+    transform-origin: 100% 50%;
+    transform: scale(0);
+    transition: transform 0.8s ease-out;
+}
+
+.stem.grown::before {
+    transform: scale(1) rotate(-20deg);
+}
+
+.stem.grown::after {
+    transform: scale(1) rotate(20deg);
+}
+
+/* Flower Head */
+.flower-head {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: scale(0);
+    transform-origin: center bottom;
+    transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.petal {
+    position: absolute;
+    border-radius: 50% 50% 45% 45%;
+}
+
+.flower-center {
+    position: absolute;
+    background: radial-gradient(circle, #ffe066, #f0c040);
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 0 8px rgba(255, 224, 102, 0.5);
+}
+
+/* Rose specific */
+.rose .petal {
+    width: 18px;
+    height: 24px;
+    border-radius: 50% 50% 45% 45%;
+}
+
+/* Tulip specific */
+.tulip .petal {
+    width: 14px;
+    height: 28px;
+    border-radius: 50% 50% 30% 30%;
+}
+
+/* Floating Hearts */
+.floating-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.floating-heart {
+    position: absolute;
+    bottom: -50px;
+    color: rgba(255, 107, 157, 0.3);
+    animation: floatUp linear forwards;
+    pointer-events: none;
+}
+
+/* Stars */
+.star {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    z-index: 0;
+    animation: twinkle 3s ease-in-out infinite;
+}
+
+/* Bouquet ribbon/wrap */
+.bouquet-ribbon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 65px;
+    background: linear-gradient(135deg, #e91e63, #c2185b);
+    border-radius: 5px 5px 14px 14px;
+    z-index: 10;
+    box-shadow: 0 0 20px rgba(233, 30, 99, 0.4);
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}
+
+.bouquet-ribbon::before {
+    content: '🎀';
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    filter: drop-shadow(0 0 5px rgba(255, 100, 150, 0.6));
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes titleGlow {
+    0%, 100% { 
+        text-shadow: 
+            0 0 20px rgba(255, 107, 157, 0.5),
+            0 0 40px rgba(255, 107, 157, 0.3);
+    }
+    50% { 
+        text-shadow: 
+            0 0 30px rgba(255, 107, 157, 0.8),
+            0 0 60px rgba(255, 107, 157, 0.5),
+            0 0 100px rgba(255, 107, 157, 0.3);
+    }
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.3); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.2); }
+    60% { transform: scale(1); }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+    0% { opacity: 0; transform: scale(0); }
+    60% { opacity: 1; transform: scale(1.4); }
+    80% { transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+@keyframes growStem {
+    from { height: 0; }
+    to { height: var(--stem-height); }
+}
+
+@keyframes bloomFlower {
+    0% { transform: scale(0) rotate(0deg); }
+    50% { transform: scale(0.7) rotate(10deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes leafGrow {
+    from { opacity: 0; transform: scale(0); }
+    to { opacity: 1; transform: scale(1) rotate(var(--leaf-rotation)); }
+}
+
+@keyframes floatUp {
+    0% { 
+        transform: translateY(0) rotate(0deg) scale(1); 
+        opacity: 0.6; 
+    }
+    100% { 
+        transform: translateY(-110vh) rotate(360deg) scale(0.3); 
+        opacity: 0; 
+    }
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+    .garden {
+        height: 40%;
+    }
+
+    .confession-box {
+        padding: 28px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .message-container {
+        top: 28%;
+    }
+
+    .title {
+        font-size: clamp(2.8rem, 12vw, 4.5rem);
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        font-size: clamp(1.1rem, 5vw, 1.8rem);
+        margin-bottom: 18px;
+        padding: 0 10px;
+    }
+
+    .heart-beat {
+        font-size: clamp(3rem, 14vw, 4.5rem);
+    }
+
+    .garden {
+        height: 42%;
+    }
+
+    .flower {
+        bottom: 40px;
+    }
+
+    .bouquet-ribbon {
+        width: 32px;
+        height: 45px;
+        bottom: 0;
+    }
+
+    .bouquet-ribbon::before {
+        font-size: 18px;
+    }
+
+    .stem::before,
+    .stem::after {
+        width: 14px;
+        height: 7px;
+    }
+
+    .confession-box {
+        padding: 25px 20px;
+        border-radius: 16px;
+        width: 85vw;
+    }
+
+    .password-title {
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+    }
+
+    .password-hint {
+        font-size: clamp(1rem, 4vw, 1.2rem);
+        margin-bottom: 18px;
+    }
+
+    .password-input {
+        padding: 10px 20px;
+    }
+
+    .password-btn {
+        padding: 10px 28px;
+        font-size: 1.1rem;
+    }
+
+    .confession-text {
+        font-size: clamp(2.2rem, 10vw, 3rem);
+    }
+}
+
+@media (max-height: 600px) {
+    .message-container {
+        top: 10%;
+    }
+
+    .title {
+        margin-bottom: 5px;
+    }
+
+    .subtitle {
+        margin-bottom: 10px;
+    }
+}
+
+/* Landscape on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .message-container {
+        top: 5%;
+    }
+
+    .title {
+        font-size: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    .heart-beat {
+        font-size: clamp(2rem, 5vw, 3rem);
+    }
+}
+
+
