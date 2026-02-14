@@ -473,7 +473,7 @@ const passwordBtn = document.getElementById('passwordBtn');
 const passwordError = document.getElementById('passwordError');
 const passwordHintReveal = document.getElementById('passwordHintReveal');
 
-const SECRET = 'lover';
+const SECRET = 'pepper lunch';
 let failedAttempts = 0;
 
 function openPopup() {
