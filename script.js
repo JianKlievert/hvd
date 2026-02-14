@@ -377,8 +377,8 @@ function plantGarden() {
     const small = isSmallScreen();
     const flowerCount = mobile ? 7 : (small ? 9 : 11);
     const spreadAngle = mobile ? 40 : 50;
-    const stemMin = mobile ? 100 : 130;
-    const stemRange = mobile ? 130 : 150;
+    const stemMin = mobile ? 90 : 130;
+    const stemRange = mobile ? 110 : 150;
 
     // Create ribbon/wrap at the base
     const ribbon = document.createElement('div');

@@ -501,7 +501,7 @@ body {
 
 @media (max-width: 480px) {
     .message-container {
-        top: 28%;
+        top: 18%;
     }
 
     .title {
@@ -520,7 +520,7 @@ body {
     }
 
     .garden {
-        height: 42%;
+        height: 38%;
     }
 
     .flower {
